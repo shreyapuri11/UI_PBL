@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Passenger Registration & Login</title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: blue;
+            }
+            .container{
+                max-width: 400px;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+            h2{
+                text-align: center;
+            }
+            label{
+                display: block;
+                margin-bottom: 8px;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            textarea{
+                width: 100%;
+                padding: 10px;
+                background-color: #5cb85c;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            .message{
+                text-align: center;
+                margin-top: 20px;
+                color: green;
+            }
+            .error{
+                color: red;
+            }
+           </style>
+    </head>
+    <body>
+        <div class="container" id="homePage">
+            <h2>Welcome to the System</h2>
+            <button onclick="showRegistrationForm()"> Register</button>
+            <button onclick="showLoginForm()">Login</button>
+        </div>
+
+        <div class="container" id="registrationPage" style="display: none;">
+            <h2>Register</h2>
+            <label for="username">UserName (Max 50 characters)</label>
+            <input type="text" id="username" maxlength="50">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email">
+
+            <label for="password">Password (Max 30 Chars):</label>
+            <input type="password" id="password" maxlength="30">
+
+            <label for="address">Address: (Max 100 chars)</label>
+            <textarea id="address" maxlength="100"></textarea>
+
+            <label for="contactNumber">Contact Number(Max 10 Digits):</label>
+            <input type="text" id="contactNumber" maxlength="10">
+
+            <button onclick="registerUser()">Register</button>
+        </div>
+
+        <div class="container" id="acknowledgementPage" style="display: none;">
+            <h2>Registration successfully</h2>
+            <p>User ID: <span id="generateUserId"></span></p>
+            <p>User Name: <span id="ackUserName"></span></p>
+            <p>Email: <span id="ackEmail"></span></p>
+            <div class="message">User Registartion Successful</div>
+        </div>
+
+        <div class="container" id="loginPage" style="display: none;">
+            <h2>Login</h2>
+            <label for="loginUserId">User ID:</label>
+            <input type="text" id="loginUserId">
+
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword">
+
+            <button onclick="loginUser()">Login</button>
+            <div id="loginMessage" class="error"></div>
+        </div>
+
+        <div class="container" id="servicesPage" style="display: none;">
+            <h2>Welcome to the Serice Booking Page</h2>
+            <p>Select Services to book.</p>
+        </div>
+
+        <script>
+            let userId, username, email, password;
+
+             function showRegistrationForm(){
+                document.getElementById('homePage').style.display ='none';
+                document.getElementById('registrationPage').style.display = 'block';
+             }
+
+             function showLoginForm(){
+                document.getElementById('homePage').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'block';
+             }
+
+             function registerUser(){
+                username = document.getElementById('username').value;
+                email = document.getElementById('email').value;
+                password = document.getElementById('password').value;
+                let address = document.getElementById('address').value;
+                let contactNumber = document.getElementById('contactNumber').value;
+
+                if(username && email && password && address && contactNumber){
+                    userId = Math.floor(Math.random() * 100000); //random user id generation
+
+                    document.getElementById('registrationPage').style.display = 'none';
+                    document.getElementById('acknowledgmentPage').style.display = 'block';
+                    document.getElementById('generatedUserId').innerText = userId;
+                    document.getElementById('ackUsername').innerText = username;
+                    document.getElementById('ackEmail').innerText = email;
+                }
+                else{
+                    alert('Please fill out all fields. ');
+                }
+             }
+
+             function loginUser(){
+                let loginUserId = document.getElementById('loginUserId').value;
+                let loginPassword = document.getElementById('loginPassword').value;
+
+                if(loginUserId == userId && loginPassword == password){
+                    document.getElementById('loginPage').style.display = 'none';
+                    document.getElementById('servicesPage').style.display = 'block';
+                }
+                else{
+                    document.getElementById('loginMessage').innerText = 'Invalid User Id or Password';
+                }
+             }
+        </script>
+    </body>
+</html>

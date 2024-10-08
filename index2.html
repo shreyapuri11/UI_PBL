@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Service Booking System</title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+            .container{
+                max-width: 500px;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0,0,0, 0.1);
+            }
+            h2{
+                text-align: center;
+            }
+            label{
+                display: block;
+                margin-bottom: 8px;
+            }
+            input[type="text"], input[type="date"], select, textarea {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            button{
+                width: 100%;
+                padding: 10px;
+                background-color: #5cb85c;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            .message{
+                text-align: center;
+                margin-top: 20px;
+                color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Home Page -->
+         <div class="container" id="homePage">
+            <h2>Home Page - Select a Service</h2>
+            <button onclick="selectService('AC & Appliances')">AC & Appliances Repair</button>
+            <button onclick="selectService('House Cleaning')">House Cleaning</button>
+            <button onclick="selectService('Vehicle Repair')">Vehicle Repair Service</button>
+            <button onclick="selectService('Product Pickup & Drop')">Product Pickup & Drop Service</button>
+         </div>
+
+         <!-- Service Selection Page -->
+        <div class="container" id="servicePage" style="display:none;">
+            <h2 id="serviceTitle"></h2>
+            <div id="subServices"></div>
+        </div>
+
+        <!-- AC Repair Booking Form -->
+         <div class="container" id="bookingPage" style="display: none;">
+            <h2>AC Repair Booking</h2>
+
+            <label for="dateSlot">Date/Slot:</label>
+            <input type="date" id="dateSlot">
+
+            <label for="address">Address (Max 100 chars): </label>
+            <textarea id="address" maxlength="100"></textarea>
+
+            <label for="vender">Vender Selection: </label>
+            <select id="vender">
+                <option>Vender A</option>
+                <option>Vender B</option>
+                <option>Vender C</option>
+            </select>
+            
+            <label for="amount">Amount: </label>
+            <input type="text" id="amount" value="500" readonly>
+
+            <button onclick="confirmBooking()">Confirm Booking</button>
+         </div>
+
+         <!-- Booking Acknowledgment Page -->
+          <div class="container" id="acknowledgementPage" style="display: none;">
+            <h2> Service Booked Successfully!</h2>
+            <p>Service ID: <span id="serviceId"></span></p>
+            <p>Vender Name: <span id="ackVender"></span></p>
+            <p>Date Slot: <span id="ackDateSlot"></span></p>
+            <div class="message">Service Booked Successfully</div>
+          </div>
+
+          <script>
+            function selectService(serviceName){
+                document.getElementById('homePage').style.display = 'none';
+                document.getElementById('servicePage').style.display = 'block';
+                document.getElementById('serviceTitle').innerText = serviceName;
+
+                if(serviceName === 'AC & Appliances'){
+                    document.getElementById('subServices').innerHTML = `
+                    <button onclick="bookService('AC Repair')"> AC Repair </button>
+                    <button onclick="bookService('TV Repair')"> TV Repair </button>
+                    <button onclick="bookService('Fridge Repair')"> Fridge Repair </button>
+                    <button onclick="bookService('Washing Macine Repair')"> Washing Machine Repair </button>
+                `;
+                }
+                else if(serviceName === 'House Cleaning') {
+                    document.getElementById('subServices').innerHTML = `
+                    <button onclick="bookService('1BHK Cleaning')"> 1BHK Cleaning </button>
+                    <button onclick="bookService('2BHK Cleaning')"> 2BHK Cleaning </button>
+                    <button onclick="bookService('3BHK Cleaning')"> 3BHK Cleaning </button>
+                    <button onclick="bookService('Bathroom Cleaning')"> Bathroom Cleaning </button>
+                    `;
+                }
+
+            }
+
+            function bookService(subService){
+                alert(`Selected ${subService}`);
+                document.getElementById('servicePage').style.display='none';
+                document.getElementById('bookingPage').style.display = 'block';
+            }
+
+            function confirmBooking(){
+                let dateSlot = document.getElementById('dateSlot').value;
+                let address = document.getElementById('address').value;
+                let vender = document.getElementById('vender').value;
+
+                if(dateSlot && address){
+                    let serviceId = Math.floor(Math.random()* 100000);
+
+                    document.getElementById('bookingPage').style.display = 'none';
+                    document.getElementById('acknowledgmentPage').style.display = 'block';
+                    document.getElementById('serviceId').innerText=serviceId;
+                    document.getElementById('ackVender').innerText = vender;
+                    document.getElementById('ackDateSlot').innerText = dateSlot;
+                }
+                else{
+                    alert('Please fill out all fields.');
+                }
+            }
+          </script>
+        </body>
+</html>
